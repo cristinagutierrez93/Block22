@@ -11,7 +11,7 @@ const GIFTS_API_URL = 'http://fsa-async-await.herokuapp.com/api/workshop/gifts';
 // get all parties
 const getAllParties = async () => {
   try {
-    const response = await fetch(PARTIES_API_URL);
+    const response = await fetch(`${PARTIES_API_URL}/`);
     const parties = await response.json();
     return parties;
   } catch (error) {
@@ -54,7 +54,7 @@ const renderSinglePartyById = async (id) => {
     // const gifts = await giftsResponse.json();
 
     // create new HTML element to display party details
-    const partyDetailsElement = document.createElement('div');
+    const partyDetailsElement = document.createElement('party-container');
     partyDetailsElement.classList.add('party-details');
     partyDetailsElement.innerHTML = `
             <h2>${party.title}</h2>
@@ -97,9 +97,9 @@ const renderParties = async (parties) => {
   try {
     partyContainer.innerHTML = '';
     parties.forEach((party) => {
-      const partyElement = document.createElement('div');
-      partyElement.classList.add('party');
-      partyElement.innerHTML = `
+      const partyContainer = document.querySelector('party-container');
+      partyContainer.classList.add('party');
+      partyContainer.innerHTML = `
                 <h2>${party.name}</h2>
                 <p>${party.description}</p>
                 <p>${party.date}</p>
@@ -129,7 +129,9 @@ const renderParties = async (parties) => {
 
 // init function
 const init = async () => {
-  // your code here
+  const parties= await getAllParties ();
+  renderParties (parties);
+  console.log (parties);
 };
 
 init();
